@@ -41,6 +41,25 @@ Admin dapat melihat hasil seluruh DM dan mengelola proyek. Setiap DM masuk denga
 
 Kredensial di atas adalah akun **demo yang dipublikasikan bersama source code**. Jika aplikasi dibuka untuk orang lain melalui jaringan, ganti kata sandi admin dan tiap DM terlebih dahulu. Kata sandi di database disimpan sebagai hash, sedangkan tabel di atas memang berisi kata sandi demo untuk pengujian.
 
+### Jika kata sandi demo salah setelah `git pull`
+
+`git pull` memperbarui program, tetapi **tidak mengganti akun pada `data/dss.sqlite3` yang sudah ada**. Jadi pada clone yang pernah dijalankan, gunakan akun lama. Untuk mencoba empat akun demo tanpa menghapus data lama, hentikan Streamlit (`Ctrl+C`), buka terminal di folder clone tersebut, lalu jalankan dengan **database demo terpisah**:
+
+macOS:
+
+```bash
+DSS_DB_PATH="$PWD/data/dss-demo.sqlite3" .venv/bin/python -m streamlit run app.py
+```
+
+Windows PowerShell:
+
+```powershell
+$env:DSS_DB_PATH = (Join-Path (Get-Location) 'data\dss-demo.sqlite3')
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+Perintah ini membuat `dss-demo.sqlite3` pada pemakaian pertama dan menyiapkan akun pada tabel di atas. Database lama `dss.sqlite3` tetap ada. Di PowerShell, jalankan `Remove-Item Env:DSS_DB_PATH` sebelum kembali ke database lama; di macOS, jalankan perintah Streamlit biasa tanpa awalan `DSS_DB_PATH=...`. Jika pernah memakai `dss-demo.sqlite3` dan mengubah kata sandinya, gunakan nama file demo baru.
+
 Pada satu komputer, beberapa akun dapat didemokan lewat jendela browser yang berbeda atau mode privat. Jika DM mengakses dari perangkat lain pada jaringan yang sama, jalankan Streamlit dengan alamat jaringan yang sesuai dan gunakan alamat komputer server. Pengaturan jaringan di luar komputer lokal menjadi tanggung jawab penyelenggara demo.
 
 ## 3. Alur demo yang disarankan

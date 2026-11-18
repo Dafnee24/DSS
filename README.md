@@ -20,6 +20,8 @@ Buka `http://localhost:8501`. Langkah Windows PowerShell dan daftar akun demo ad
 
 Pada clone baru, aplikasi otomatis membuat akun demo admin, DM1, DM2, dan DM3. Nama pengguna dan kata sandinya tercantum di [panduan instalasi](PANDUAN_INSTALASI.md). Admin dapat menambah DM baru beserta akunnya dalam satu langkah. Kata sandi di database disimpan sebagai hash PBKDF2; kredensial demo di panduan bersifat publik dan perlu diganti jika server dibuka ke jaringan.
 
+Clone lama yang diperbarui dengan `git pull` tetap memakai akun lama pada database lokal. Lihat bagian **Jika kata sandi demo salah setelah `git pull`** dalam panduan untuk menjalankan database demo terpisah tanpa menghapus data lama.
+
 1. **Admin - Kelola proyek:** atur alternatif, kriteria, akun DM, bobot, dan skala. Impor/ekspor data ada pada tab Berkas.
 2. **DM - Penilaian saya:** masuk dengan akun sendiri, pilih atau ubah kode Linguistic Term pada tabel miliknya, lalu klik **Simpan penilaian saya**. DM dapat melihat skor miliknya dan mengonfirmasi penilaian selesai. Tidak ada pemilih DM lain pada tampilan DM.
 3. **Admin - Hasil grup:** lihat ranking gabungan, skor semua DM, bobot MEREC, status pengisian, catatan, dan riwayat keputusan. Perubahan yang disimpan DM muncul setelah halaman admin dimuat ulang.
