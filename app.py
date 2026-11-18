@@ -25,7 +25,7 @@ from workbook_io import (SOURCE, csv_bytes, export_bundle, import_json,
 ROOT = Path(__file__).resolve().parent
 st.set_page_config(page_title="DSS Pemasok · MEREC–MARCOS", page_icon="◈", layout="wide")
 st.html("<style>" + (ROOT / "assets" / "style.css").read_text(encoding="utf-8") + "</style>")
-initialize()
+initialize(seed_demo=True)
 
 
 def header(title, description):
@@ -90,7 +90,7 @@ def login_screen():
             st.rerun()
         except (ModelError, AccessError) as exc:
             handle_error(exc)
-    st.caption("Akun DM dibuat oleh admin pada halaman Kelola proyek. Data penilaian tersimpan bersama di komputer yang menjalankan Streamlit.")
+    st.caption("Akun demo admin dan DM1–DM3 tersedia pada instalasi baru. Akun tambahan dikelola admin; data tersimpan pada komputer yang menjalankan Streamlit.")
     st.stop()
 
 

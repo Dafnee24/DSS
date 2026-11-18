@@ -17,6 +17,12 @@ from workbook_io import import_workbook, scenario_json
 
 ROOT = Path(__file__).resolve().parent
 ITERATIONS = 390_000
+DEMO_ACCOUNTS = (
+    ("admin", "admin", None, "AdminDSS2026!"),
+    ("dm1", "dm", "DM1", "DM1DSS2026!"),
+    ("dm2", "dm", "DM2", "DM2DSS2026!"),
+    ("dm3", "dm", "DM3", "DM3DSS2026!"),
+)
 
 
 class AccessError(ValueError):
@@ -41,7 +47,7 @@ def _connect():
     return connection
 
 
-def initialize():
+def initialize(seed_demo=False):
     with _connect() as connection:
         connection.execute("PRAGMA journal_mode=WAL")
         connection.execute("""CREATE TABLE IF NOT EXISTS state (
@@ -53,11 +59,24 @@ def initialize():
             active INTEGER NOT NULL DEFAULT 1,
             CHECK ((role='admin' AND dm_id IS NULL) OR (role='dm' AND dm_id IS NOT NULL)))""")
         connection.execute("CREATE UNIQUE INDEX IF NOT EXISTS one_user_per_dm ON users(dm_id) WHERE dm_id IS NOT NULL")
+        if seed_demo:
+            connection.execute("BEGIN IMMEDIATE")
         if connection.execute("SELECT 1 FROM state WHERE id=1").fetchone() is None:
             project = import_workbook()
             group_data(project)
             connection.execute("INSERT INTO state (id,revision,project_json) VALUES (1,0,?)",
                                (scenario_json(project),))
+        if seed_demo and connection.execute("SELECT 1 FROM users LIMIT 1").fetchone() is None:
+            project, _ = _state(connection)
+            dm_ids = {dm["id"] for dm in project["decision_makers"]}
+            if not {"DM1", "DM2", "DM3"}.issubset(dm_ids):
+                raise ModelError("Data awal tidak memuat DM1, DM2, dan DM3 untuk akun demo.")
+            for username, role, dm_id, password in DEMO_ACCOUNTS:
+                salt, digest = _new_credentials(password)
+                connection.execute(
+                    "INSERT INTO users (username,role,dm_id,salt,password_hash) VALUES (?,?,?,?,?)",
+                    (username, role, dm_id, salt, digest),
+                )
 
 
 def _hash_password(password, salt):

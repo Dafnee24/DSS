@@ -4,20 +4,21 @@ Prototipe pemilihan pemasok dengan **MEREC-MARCOS**, mengikuti rumus pada `data/
 
 ## Jalankan
 
-Python 3.12 atau lebih baru:
+Python 3.12 atau lebih baru; clone repo ini lalu jalankan pada macOS:
 
 ```bash
+git clone https://github.com/Dafnee24/DSS.git
+cd DSS
 python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-streamlit run app.py
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m streamlit run app.py
 ```
 
-Buka `http://localhost:8501`. Pada Windows, jalankan `.venv\Scripts\python.exe -m streamlit run app.py` setelah memasang paket. Panduan lengkap: [PANDUAN_INSTALASI.md](PANDUAN_INSTALASI.md).
+Buka `http://localhost:8501`. Langkah Windows PowerShell dan daftar akun demo ada di [PANDUAN_INSTALASI.md](PANDUAN_INSTALASI.md).
 
 ## Masuk dan alur kerja
 
-Saat pertama kali dijalankan dari ZIP, halaman awal meminta pembuatan **akun admin**. Kata sandi minimal 10 karakter dan disimpan sebagai hash PBKDF2, bukan teks biasa. Admin lalu membuka **Kelola proyek → 3 · Akun DM** untuk membuat akun DM1, DM2, dan DM3. Admin dapat menambah DM baru beserta akunnya dalam satu langkah. Tiap akun DM memiliki nama pengguna dan kata sandi sendiri.
+Pada clone baru, aplikasi otomatis membuat akun demo admin, DM1, DM2, dan DM3. Nama pengguna dan kata sandinya tercantum di [panduan instalasi](PANDUAN_INSTALASI.md). Admin dapat menambah DM baru beserta akunnya dalam satu langkah. Kata sandi di database disimpan sebagai hash PBKDF2; kredensial demo di panduan bersifat publik dan perlu diganti jika server dibuka ke jaringan.
 
 1. **Admin - Kelola proyek:** atur alternatif, kriteria, akun DM, bobot, dan skala. Impor/ekspor data ada pada tab Berkas.
 2. **DM - Penilaian saya:** masuk dengan akun sendiri, pilih atau ubah kode Linguistic Term pada tabel miliknya, lalu klik **Simpan penilaian saya**. DM dapat melihat skor miliknya dan mengonfirmasi penilaian selesai. Tidak ada pemilih DM lain pada tampilan DM.

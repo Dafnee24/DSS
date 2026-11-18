@@ -1,35 +1,45 @@
 # Panduan instalasi dan demo DSS Pemasok
 
-## 1. Persiapan
+## 1. Clone dan jalankan
 
-Ekstrak seluruh isi `DSS-Streamlit.zip` ke satu folder. Pasang Python 3.12 atau lebih baru. Buka folder itu di VS Code, lalu buka **Terminal → New Terminal**. Pastikan `app.py`, `store.py`, `engine.py`, `requirements.txt`, folder `data`, dan folder `assets` tetap dalam folder proyek yang sama.
+Pasang Git dan Python 3.12 atau lebih baru. Buka Terminal (macOS) atau PowerShell (Windows). Perintah berikut mengunduh proyek dari GitHub, memasang paket, dan menjalankan Streamlit. Excel tidak perlu dipasang.
 
-### macOS / Linux
+### macOS
 
 ```bash
+git clone https://github.com/Dafnee24/DSS.git
+cd DSS
 python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-streamlit run app.py
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m streamlit run app.py
 ```
 
 ### Windows PowerShell
 
 ```powershell
+git clone https://github.com/Dafnee24/DSS.git
+cd DSS
 py -3.12 -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt
-.venv\Scripts\python.exe -m streamlit run app.py
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Buka alamat `http://localhost:8501` yang muncul di terminal. Tekan `Ctrl+C` untuk menghentikan server.
+Buka `http://localhost:8501` atau alamat yang muncul di terminal. Tekan `Ctrl+C` untuk menghentikan server. Saat menjalankan lagi, masuk ke folder `DSS` dan ulangi perintah `... -m streamlit run app.py` sesuai sistem operasi. Jika folder proyek sudah ada, jalankan `git pull origin main` dari dalam folder itu untuk mengambil pembaruan.
 
-## 2. Siapkan akun
+## 2. Akun demo yang langsung tersedia
 
-1. Pada instalasi baru, halaman pertama meminta **nama pengguna dan kata sandi admin**. Gunakan kata sandi minimal 10 karakter. Catat kredensial ini di tempat aman.
-2. Setelah masuk sebagai admin, buka **Kelola proyek → 3 · Akun DM**.
-3. Buat akun untuk DM1, DM2, dan DM3 dengan nama pengguna dan kata sandi berbeda. Berikan kredensial masing-masing hanya kepada DM terkait.
-4. Untuk penilai tambahan, gunakan **Tambah DM baru beserta akunnya**. Bobot awal DM baru 0%; atur pada tab **4 · Bobot & skala**.
-5. Setiap DM membuka alamat server, masuk dengan akunnya sendiri, dan hanya melihat halaman **Penilaian saya**.
+Pada clone baru, aplikasi otomatis membuat akun berikut saat pertama dijalankan. **Tidak perlu membuat admin atau akun DM secara manual.**
+
+| Peran | Nama pengguna | Kata sandi |
+| --- | --- | --- |
+| Admin | `admin` | `AdminDSS2026!` |
+| DM1 | `dm1` | `DM1DSS2026!` |
+| DM2 | `dm2` | `DM2DSS2026!` |
+| DM3 | `dm3` | `DM3DSS2026!` |
+
+Admin dapat melihat hasil seluruh DM dan mengelola proyek. Setiap DM masuk dengan akunnya sendiri dan hanya dapat mengubah penilaiannya sendiri. Untuk penilai tambahan, admin memakai **Kelola proyek → 3 · Akun DM → Tambah DM baru beserta akunnya**. Bobot awal DM baru 0%; atur di tab **4 · Bobot & skala**.
+
+Kredensial di atas adalah akun **demo yang dipublikasikan bersama source code**. Jika aplikasi dibuka untuk orang lain melalui jaringan, ganti kata sandi admin dan tiap DM terlebih dahulu. Kata sandi di database disimpan sebagai hash, sedangkan tabel di atas memang berisi kata sandi demo untuk pengujian.
 
 Pada satu komputer, beberapa akun dapat didemokan lewat jendela browser yang berbeda atau mode privat. Jika DM mengakses dari perangkat lain pada jaringan yang sama, jalankan Streamlit dengan alamat jaringan yang sesuai dan gunakan alamat komputer server. Pengaturan jaringan di luar komputer lokal menjadi tanggung jawab penyelenggara demo.
 
@@ -45,7 +55,9 @@ Pada satu komputer, beberapa akun dapat didemokan lewat jendela browser yang ber
 
 ## 4. Penyimpanan dan pemulihan
 
-Proyek serta akun tersimpan pada `data/dss.sqlite3` di komputer server. File SQLite tidak disertakan dalam ZIP sumber dan dibuat otomatis saat instalasi baru. Simpan cadangan file database ketika server berhenti jika ingin mempertahankan akun dan data persis. Admin juga dapat mengekspor JSON untuk data proyek; setelah JSON diimpor pada instalasi lain, akun harus dibuat kembali karena JSON tidak berisi kata sandi.
+Proyek serta akun tersimpan pada `data/dss.sqlite3` di komputer server. File SQLite tidak diunggah ke GitHub dan dibuat otomatis saat aplikasi pertama kali berjalan. Setiap clone baru mulai dari data Excel awal dan empat akun demo di atas. `git pull` **tidak menghapus atau mengganti** akun pada database yang sudah ada; jadi clone lama tetap memakai kata sandi yang sebelumnya dibuat atau diubah. Jika ingin mencoba akun demo tanpa mengganggu data lama, clone proyek lagi ke folder baru, misalnya `git clone https://github.com/Dafnee24/DSS.git DSS-demo`.
+
+Simpan cadangan database ketika server berhenti jika ingin mempertahankan akun dan data persis. Admin juga dapat mengekspor JSON untuk data proyek; JSON tidak berisi kata sandi akun.
 
 Impor Excel hanya mendukung struktur awal 14 alternatif × 12 kriteria × 3 DM. Jika struktur telah diubah melalui aplikasi, gunakan JSON. Impor dan pemulihan proyek hanya dapat dilakukan admin. Perubahan admin dari tab Kelola proyek akan ditolak jika ada browser lain yang menyimpan penilaian lebih baru; muat ulang halaman sebelum mengulanginya.
 
