@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+DSS-Streamlit.zip
+LAPORAN_AKHIR.md
+PANDUAN_PRESENTASI.md
+output/pdf/
+tools/make_report_pdf.py
+.streamlit/secrets.toml
+tmp/
+data/*.sqlite3
+data/*.sqlite3-wal
+data/*.sqlite3-shm
